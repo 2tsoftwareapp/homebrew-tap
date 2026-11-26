@@ -1,12 +1,12 @@
-# Homebrew cask for the unsigned Quickshort build.
+# Homebrew cask for the signed and notarized Quickshort build.
 # Publish in a custom tap repo `2tsoftwareapp/homebrew-tap` at Casks/quickshort.rb;
 # the release workflow can bump version+sha256 automatically via TAP_TOKEN.
 #
 #   brew tap 2tsoftwareapp/tap
 #   brew install --cask quickshort
 cask "quickshort" do
-  version "0.4.0"
-  sha256 "1ca5afd244bc8df277bf24d79685352624abb9e033581a4d4f216ef53be014e7"
+  version "0.4.1"
+  sha256 "14389a6eeeed1a2aa0bc05b82858ba20a73977b1df085cbb1ac48e02bbb054ac"
 
   url "https://github.com/2tsoftwareapp/quickshort/releases/download/v#{version}/Quickshort-v#{version}-macos.zip"
   name "Quickshort"
@@ -15,11 +15,16 @@ cask "quickshort" do
 
   app "Quickshort.app"
 
-  # unsigned build: strip quarantine so Gatekeeper doesn't block first launch
-  postflight_steps do
-    run "/usr/bin/xattr",
-        args:           ["-dr", "com.apple.quarantine", "{{appdir}}/Quickshort.app"],
-        writable_paths: ["{{appdir}}/Quickshort.app"]
+  # Builds are Developer ID signed and notarized, so Homebrew must not strip
+  # quarantine: Gatekeeper can assess the stapled notarization ticket normally.
+
+  # screen recording (⌘R) pipes frames into ffmpeg — optional, everything
+  # else works without it, so this is a hint rather than a dependency
+  def caveats
+    <<~EOS
+      Screen recording needs ffmpeg:
+        brew install ffmpeg
+    EOS
   end
 
   zap trash: [
