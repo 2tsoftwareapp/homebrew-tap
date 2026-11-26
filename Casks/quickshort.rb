@@ -5,8 +5,8 @@
 #   brew tap 2tsoftwareapp/tap
 #   brew install --cask quickshort
 cask "quickshort" do
-  version "0.4.1"
-  sha256 "14389a6eeeed1a2aa0bc05b82858ba20a73977b1df085cbb1ac48e02bbb054ac"
+  version "0.4.3"
+  sha256 "54fa2e3b9a9bbabcd0f68adbde5013dd01384bfc03998d4c67616eb95be3ce03"
 
   url "https://github.com/2tsoftwareapp/quickshort/releases/download/v#{version}/Quickshort-v#{version}-macos.zip"
   name "Quickshort"
